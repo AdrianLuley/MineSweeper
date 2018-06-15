@@ -1,108 +1,54 @@
-const map = [
-    "XXXXXXXX",
-    "XXXXXXXX",
-    "XXXXXXXX",
-    "XXXXXXXX",
-    "XXXXXXXX",
-    "XXXXXXXX",
-    "XXXXXXXX",
-    "XXXXXXXX"
-].map(function (row) {
-    return row.split("");
-});
-// Look at file: Multiplication for arbitary use of board//
-// Default Mapp //
-let mapDiv = document.getElementById("gameBoard");
-var row;
-var column;
-// button timer variables //
-var minutesLabel = document.getElementById("minutes");
-var secondsLabel = document.getElementById("seconds");
-var totalSeconds = 0;
-
-setInterval(setTime, 1000);
-// function for timer //
-function setTime() {
-    ++totalSeconds;
-    secondsLabel.innerHTML = pad(totalSeconds % 60);
-    minutesLabel.innerHTML = pad(parseInt(totalSeconds / 60));
-}
-
-function pad(val) {
-    var valString = val + "";
-    if (valString.length < 2) {
-        return "0" + valString;
-    } else {
-        return valString;
+class Cell {
+    constructor(x , y){
+        this.isBomb = false;
+        this.x = x;
+        this.y = y;
+        this.clicked = false;
+        this.nieghbors = 0;
     }
 }
-// for loop for displaying the map //
-for (let x = 0; x < map.length; x++) {
-    var newMap = map[x];
-    let row = document.createElement("div");
-    row.classList.add("row");
 
-
-    for (let y = 0; y < newMap.length; y++) {
-
-        let cell = new Cell();
+class Grid {
+    constructor(width, height, bombs){
+        this.width = width;
+        this.height = height;
+        this.bombs = bombs;
+        this.cells = []; 
+        this.createCells();
+        this.placeBombs();
         
-        row.appendChild(cell.div);
-      
     }
 
-    // appends row(the maze) to the HTML Div //
-    mapDiv.appendChild(row);
+    createCells(){
+        for(let y = 0; y < this.height; y++){
+            const row = [];
+            for(let x= 0; x < this.width; x++) {
+                const cell = new Cell("empty", x , y);
+                row.push(cell);
+            }
+            this.cells.push(row);
+        }
+    }
 
+
+    placeBombs(){
+        let bombsOnBoard = 0;
+        while(bombsOnBoard < this.bombs){
+            const randomY = getRandomInt(0,this.height - 1);
+            const randomX = getRandomInt(0,this.width - 1);
+            const cell = this.cells[randomY][randomX];
+            if(!cell.isBomb){
+                cell.isBomb = true;
+                bombsOnBoard++;
+            }
+
+            
+        }
+    }
 }
-// Returns a random integer between min and max //
 
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
-//from MDN //
-// from Mike , displays bombs on board as "B" and randomly and randomly places them //
-let bombsOnBoard = 0;
 
-while (bombsOnBoard < 5) {
-    // Pick a random row
-    // Pick a random column
-    var row = getRandomInt(0, map.length - 1);
-    var column = getRandomInt(0, map[0].length - 1);
-    /* the square at (row, column) is empty */
-    
-    var cell = map[row][column];
-    if (cell === "X") {
-        unplaced_mines--;
-        map[row][column] = "B";
-        // Place a mine in the square at (row, column)
-    }
-}
-
-
-function Cell(x,y) {
-    this.div = document.createElement("div");
-    this.div.classList.add("cell");
-    
-    
-    this.div.addEventListener('click', this);
-    
-    this.handleEvent = function(event) {
-        this.div.classList.add("clicked");
-    
-        };
-}
-
-  
-
-    
-
-    // click to reval will replace the grey box with a white background and then show neighboring bombs //
-
-    // the for loop should randomize the bomb placement //
-
-    // for (var i = 0; i < newMap.length; i++) {
-    //     var x = 70 * i;
-    //     var y = Math.floor(Math.random() * 5);
-
-    // }
+const grid = new Grid(8,8,20);
