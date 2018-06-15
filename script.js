@@ -19,7 +19,7 @@ var column;
 var minutesLabel = document.getElementById("minutes");
 var secondsLabel = document.getElementById("seconds");
 var totalSeconds = 0;
-var number_of_mines_to_place = 5;
+
 setInterval(setTime, 1000);
 // function for timer //
 function setTime() {
@@ -48,10 +48,7 @@ for (let x = 0; x < map.length; x++) {
         let cell = new Cell();
         
         row.appendChild(cell.div);
-        if (newMap[y] == "X") {
-            cell.div.style.backgroundColor = "grey";
-
-        }
+      
     }
 
     // appends row(the maze) to the HTML Div //
@@ -65,8 +62,9 @@ function getRandomInt(min, max) {
 }
 //from MDN //
 // from Mike , displays bombs on board as "B" and randomly and randomly places them //
-var unplaced_mines = number_of_mines_to_place;
-while (unplaced_mines > 0) {
+let bombsOnBoard = 0;
+
+while (bombsOnBoard < 5) {
     // Pick a random row
     // Pick a random column
     var row = getRandomInt(0, map.length - 1);
@@ -82,7 +80,7 @@ while (unplaced_mines > 0) {
 }
 
 
-function Cell() {
+function Cell(x,y) {
     this.div = document.createElement("div");
     this.div.classList.add("cell");
     
@@ -90,7 +88,7 @@ function Cell() {
     this.div.addEventListener('click', this);
     
     this.handleEvent = function(event) {
-        this.div.style.backgroundColor = "white";
+        this.div.classList.add("clicked");
     
         };
 }

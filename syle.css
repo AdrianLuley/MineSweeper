@@ -8,17 +8,16 @@
 #gameboard {
     width: 500px;
     height: 500px;
-    
 }
+
 .timer {
     background: white;
-    
 }
 
 .row {
     display: flex;
     flex-direction: row;
-    background-color: white;
+    background-color: grey;
     width: 47%;
 }
 
@@ -28,6 +27,13 @@
     border: 1px solid black;
 }
 
+.clicked {
+    background-color: white;
+}
+
+.bomb {
+    background-color: red;
+}
 
 body {
     margin: 0;
