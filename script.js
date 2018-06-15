@@ -5,7 +5,9 @@ class Cell {
         this.y = y;
         this.clicked = false;
         this.nieghbors = 0;
+        this.element = null;
     }
+    // TODO write a handle event method, attach clicks to the cell//
 }
 
 class Grid {
@@ -19,7 +21,8 @@ class Grid {
         
     }
 
-    createCells(){
+    createCells(){ 
+        //Todo: create Div with the right styles and add them to the HTML assign as cell.element //
         for(let y = 0; y < this.height; y++){
             const row = [];
             for(let x= 0; x < this.width; x++) {
